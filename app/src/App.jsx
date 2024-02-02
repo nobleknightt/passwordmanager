@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react"
+import { useEffect, useRef, useState } from "react"
 
 function readFile(file, setFileContent) {
   const reader = new FileReader()
@@ -64,6 +64,8 @@ function App() {
   const [showRecordPopup, setShowRecordPopup] = useState(false)
   const [recordIndex, setRecordIndex] = useState(-1)
   const [updatedRecord, setUpdatedRecord] = useState({})
+
+  const linkRef = useRef(null)
 
   useEffect(() => {
     // setShowUploadPopup(true)
@@ -149,7 +151,19 @@ function App() {
       <div className={`${showDownloadPopup ? "absolute w-full border flex flex-col gap-1 bg-slate-50 p-1" : "hidden"}`}>
         <input className="border" type="password" placeholder="password" value={password} onChange={(event) => setPassword(event.target.value)}></input>
         <div className="flex gap-1">
-          <button className="border w-full bg-slate-200">Download</button>
+          <button className="border w-full bg-slate-200" onClick={
+            () => {
+                const fileContent = JSON.stringify(records)
+                const blob = new Blob([fileContent], { type: 'text/plain' })
+                const url = URL.createObjectURL(blob)
+                linkRef.current.href = url
+                linkRef.current.download = "passwords"
+                linkRef.current.click() 
+                setTimeout(() => URL.revokeObjectURL(url), 2000) 
+            }
+          }>
+            <a ref={linkRef}>Download</a>
+          </button>
           <button className="border w-full" onClick={() => setShowDownloadPopup(false)}>Cancel</button>
         </div>
       </div>
