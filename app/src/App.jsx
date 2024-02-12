@@ -1,12 +1,5 @@
 import { useEffect, useRef, useState } from "react"
 
-function readFile(file, setFileContent) {
-  const reader = new FileReader()
-  reader.addEventListener('load', (event) => {
-    setFileContent(JSON.parse(event.target.result))
-  })
-  reader.readAsText(file)
-}
 
 async function encryptWith_AES_GCM(plaintextBytes, passwordBytes) {
   const passwordKey = await crypto.subtle.importKey('raw', passwordBytes, { name: 'PBKDF2' }, false, ['deriveKey']);
@@ -133,12 +126,12 @@ function App() {
   }, [])
 
   return (
-    <div className="relative h-screen flex items-center justify-center font-['Atkinson_Hyperlegible'] tracking-tight bg-slate-50">
-      <div className="h-full flex flex-col gap-1">
+    <div className="relative h-screen flex items-center justify-center font-['Atkinson_Hyperlegible'] tracking-tight bg-slate-50 pt-1">
+      <div className="h-full max-w-[400px] w-[calc(100vw-8px)] flex flex-col gap-1">
         <div className="flex flex-col gap-1">
-          <input className="border"></input>
+          <input className="border rounded px-1"></input>
           <div className="flex gap-1">
-            <button className="border w-full" onClick={() => {
+            <button className="border rounded w-full bg-slate-200" onClick={() => {
               setRecordIndex(records.length)
               setUpdatedRecord({
                 "website": "",
@@ -151,14 +144,14 @@ function App() {
               })
               setShowRecordPopup(true)
             }}>New</button>
-            <button className="border w-full" onClick={() => setShowDownloadPopup(true)}>Download</button>
+            <button className="border rounded w-full" onClick={() => setShowDownloadPopup(true)}>Download</button>
           </div>
         </div>
         <div className="grow flex flex-col gap-1 overflow-auto">
           {
             records.map((value, index) => {
               return (
-                <div key={index} className="border px-1" onClick={() => {
+                <div key={index} className="border rounded px-1" onClick={() => {
                   setRecordIndex(index)
                   setUpdatedRecord(records[index])
                   setShowRecordPopup(true)
@@ -171,11 +164,11 @@ function App() {
           }
         </div>
       </div>
-      <div className={`${showUploadPopup ? "absolute w-full border flex flex-col gap-1 bg-slate-50 p-1" : "hidden"}`}>
-        <input className="border" type="file" onChange={(event) => setFile(event.target.files[0])}></input>
-        <input className="border" type="password" placeholder="password" onChange={(event) => setPassword(event.target.value)}></input>
+      <div className={`${showUploadPopup ? "absolute max-w-[400px] w-[calc(100vw-8px)] border rounded flex flex-col gap-1 bg-slate-50 p-1" : "hidden"}`}>
+        <input className="border rounded" type="file" onChange={(event) => setFile(event.target.files[0])}></input>
+        <input className="border rounded px-1" type="password" placeholder="password" onChange={(event) => setPassword(event.target.value)}></input>
         <div className="flex gap-1">
-          <button className="border w-full bg-slate-200" onClick={() => {
+          <button className="border rounded w-full bg-slate-200" onClick={() => {
             const reader = new FileReader()
             reader.addEventListener('load', (event) => {
               const fileContent = event.target.result
@@ -195,19 +188,19 @@ function App() {
             reader.readAsText(file)
             setShowUploadPopup(false)
           }}>Upload</button>
-          <button className="border w-full" onClick={() => setShowUploadPopup(false)}>Cancel</button>
+          <button className="border rounded w-full" onClick={() => setShowUploadPopup(false)}>Cancel</button>
         </div>
       </div>
-      <div className={`${showRecordPopup ? "absolute w-full border flex flex-col gap-1 bg-slate-50 p-1" : "hidden"}`}>
+      <div className={`${showRecordPopup ? "absolute max-w-[400px] w-[calc(100vw-8px)] border rounded flex flex-col gap-1 bg-slate-50 p-1" : "hidden"}`}>
         {
           Object.keys(updatedRecord).map((value) =>
-            <input key={value} className="border" placeholder={value} value={updatedRecord[value]} onChange={(event) =>
+            <input key={value} className="border rounded px-1" placeholder={value} value={updatedRecord[value]} onChange={(event) =>
               setUpdatedRecord({ ...updatedRecord, [value]: event.target.value })
             }></input>
           )
         }
         <div className="flex gap-1">
-          <button className="border" onClick={() => {
+          <button className="border rounded w-full bg-slate-200" onClick={() => {
             recordIndex < records.length
               ? setRecords(records.map((value, index) =>
                 index == recordIndex
@@ -219,17 +212,17 @@ function App() {
             setRecordIndex(-1)
             setShowRecordPopup(false)
           }}>Save</button>
-          <button className="border" onClick={() => {
+          <button className="border rounded w-full" onClick={() => {
             setUpdatedRecord({})
             setRecordIndex(-1)
             setShowRecordPopup(false)
           }}>Close</button>
         </div>
       </div>
-      <div className={`${showDownloadPopup ? "absolute w-full border flex flex-col gap-1 bg-slate-50 p-1" : "hidden"}`}>
-        <input className="border" type="password" placeholder="password" value={password} onChange={(event) => setPassword(event.target.value)} required></input>
+      <div className={`${showDownloadPopup ? "absolute max-w-[400px] w-[calc(100vw-8px)] border rounded flex flex-col gap-1 bg-slate-50 p-1" : "hidden"}`}>
+        <input className="border rounded px-1" type="password" placeholder="password" value={password} onChange={(event) => setPassword(event.target.value)} required></input>
         <div className="flex gap-1">
-          <button className="border w-full bg-slate-200" onClick={
+          <button className="border rounded w-full bg-slate-200" onClick={
             () => {
               const fileContent = JSON.stringify(records)
 
@@ -251,7 +244,7 @@ function App() {
             }
           }>Download</button>
           <a ref={linkRef} className="hidden"></a>
-          <button className="border w-full" onClick={() => setShowDownloadPopup(false)}>Cancel</button>
+          <button className="border w-full rounded" onClick={() => setShowDownloadPopup(false)}>Cancel</button>
         </div>
       </div>
     </div>
