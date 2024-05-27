@@ -414,53 +414,7 @@ function ExportToFile({ records, password, setPassword }) {
 }
 
 function App() {
-  const [records, setRecords] = useState([
-    {
-      "website": "google.com",
-      "url": "https://accounts.google.com",
-      "username": "johndoe",
-      "email": "johndoe@gmail.com",
-      "password": "john@123",
-      "mobile": "9876543210",
-      "notes": "this is for google.com"
-    },
-    // {
-    //   "website": "reallyreallylongname.com",
-    //   "url": "https://reallyreallylongname.google.com",
-    //   "username": "johndoe",
-    //   "email": "johndoe@gmail.com",
-    //   "password": "john@123",
-    //   "mobile": "9876543210",
-    //   "notes": "this is for google.com"
-    // },
-    // {
-    //   "website": "google.com",
-    //   "url": "https://accounts.google.com",
-    //   "username": "johndoe",
-    //   "email": "johndoe@gmail.com",
-    //   "password": "john@123",
-    //   "mobile": "9876543210",
-    //   "notes": "this is for google.com"
-    // },
-    // {
-    //   "website": "google.com",
-    //   "url": "https://accounts.google.com",
-    //   "username": "johndoe",
-    //   "email": "johndoe@gmail.com",
-    //   "password": "john@123",
-    //   "mobile": "9876543210",
-    //   "notes": "this is for google.com"
-    // },
-    // {
-    //   "website": "google.com",
-    //   "url": "https://accounts.google.com",
-    //   "username": "johndoe",
-    //   "email": "johndoe@gmail.com",
-    //   "password": "john@123",
-    //   "mobile": "9876543210",
-    //   "notes": "this is for google.com"
-    // }
-  ])
+  const [records, setRecords] = useState([])
   const [password, setPassword] = useState("")
 
   return (
