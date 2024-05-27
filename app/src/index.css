@@ -5,8 +5,3 @@
 * {
     box-sizing: border-box;
 }
-
-@font-face {
-    font-family: 'Intel One Mono';
-    src: url('https://github.com/intel/intel-one-mono/raw/main/fonts/woff2/IntelOneMono-Light.woff2');
-}
