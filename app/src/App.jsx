@@ -258,7 +258,7 @@ function Records({ records, setRecords }) {
                 setUpdatedRecord({ ...updatedRecord, email: event.target.value })
               }></input>
               <div className="absolute right-0 top-0 bottom-0 flex items-center justify-center p-1">
-                <button className="rounded-sm bg-white"><img src={ContentCopy} width="16px"></img></button>
+                <button className="rounded-sm bg-white" onClick={() => navigator.clipboard.writeText(updatedRecord.email)}><img src={ContentCopy} width="16px"></img></button>
               </div>
             </div>
           </div>
