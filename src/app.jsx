@@ -1,8 +1,8 @@
 import { useState } from "react"
-import AddRecord from "./components/AddRecord"
-import ImportFromFile from "./components/ImportFromFile"
-import ExportToFile from "./components/ExportToFile"
-import Records from "./components/Records"
+import { AddRecord } from "./components/add-record"
+import { ImportFromFile } from "./components/import-from-file"
+import { ExportToFile } from "./components/export-to-file"
+import { Records } from "./components/records"
 
 function App() {
   const [records, setRecords] = useState([])
@@ -27,4 +27,4 @@ function App() {
   )
 }
 
-export default App
+export { App }

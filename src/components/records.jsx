@@ -1,9 +1,6 @@
 /* eslint-disable react/prop-types */
 import { useState, useRef } from "react"
-import OpenInNew from "../images/open_in_new.svg"
-import ContentCopy from "../images/content_copy.svg"
-import Visibility from "../images/visibility.svg"
-import VisibilityOff from "../images/visibility_off.svg"
+import { ExternalLink, Copy, Eye, EyeOff } from "lucide-react"
 
 
 function Records({ records, setRecords }) {
@@ -11,12 +8,10 @@ function Records({ records, setRecords }) {
   const [updatedRecord, setUpdatedRecord] = useState({})
   const [passwordVisible, setPasswordVisible] = useState(false)
   const updateDialogRef = useRef(null)
-  // const deleteDialogRef = useRef(null)
 
   return (
     <>
       <div className="grow flex flex-col gap-2 overflow-auto">
-        {console.log(records)}
         {
           records.map((value, index) => {
             return (
@@ -26,95 +21,94 @@ function Records({ records, setRecords }) {
                   <div className="text-sm">{value.username}</div>
                 </div>
                 <div className="flex gap-2">
-                  <button className="text-sm border px-2 py-0.5 rounded hover:bg-slate-200" onClick={() => {
+                  <button type="button" className="text-sm border px-2 py-0.5 rounded hover:bg-slate-200" onClick={() => {
                     setRecordIndex(index)
                     setUpdatedRecord(records[index])
                     updateDialogRef.current.showModal()
                   }}>View / Update</button>
-                  {/* <button className="text-sm border px-2 py-0.5 rounded hover:bg-slate-200">Delete</button> */}
                 </div>
               </div>
             )
           })
         }
       </div>
-      <dialog ref={updateDialogRef} className="open:max-w-[400px] open:w-[calc(100vw-16px)] open:border open:rounded open:flex open:flex-col open:gap-4 open:bg-slate-50 open:p-8">
+      <dialog ref={updateDialogRef} aria-labelledby="update-record-title" className="m-auto open:max-w-[400px] open:w-[calc(100vw-16px)] open:border open:rounded open:flex open:flex-col open:gap-4 open:bg-slate-50 open:p-8">
         <div>
-          <span className="pl-1 text-lg">View / Update Record</span>
+          <h2 id="update-record-title" className="pl-1 text-lg">View / Update Record</h2>
           <hr />
         </div>
         <div className="flex flex-col gap-2">
           <div className="flex flex-col">
-            <label className="pl-1 text-sm">Name</label>
-            <input className="border rounded px-2 py-0.5 outline-none" placeholder={updatedRecord.website} value={updatedRecord.website} onChange={(event) =>
+            <label htmlFor="update-name" className="pl-1 text-sm">Name</label>
+            <input id="update-name" className="border rounded px-2 py-0.5 outline-none" value={updatedRecord.website ?? ""} onChange={(event) =>
               setUpdatedRecord({ ...updatedRecord, website: event.target.value })
-            }></input>
+            } />
           </div>
           <div className="flex flex-col">
-            <label className="pl-1 text-sm">URL</label>
+            <label htmlFor="update-url" className="pl-1 text-sm">URL</label>
             <div className="border rounded relative">
-              <input className="rounded px-2 py-0.5 outline-none w-full" placeholder={updatedRecord.url} value={updatedRecord.url} onChange={(event) =>
+              <input id="update-url" className="rounded px-2 py-0.5 outline-none w-full" value={updatedRecord.url ?? ""} onChange={(event) =>
                 setUpdatedRecord({ ...updatedRecord, url: event.target.value })
-              }></input>
+              } />
               <div className="absolute right-0 top-0 bottom-0 flex items-center justify-center p-1">
-                <a target="_blank" rel="noreferrer" href={updatedRecord.url} className="rounded-sm bg-white"><img src={OpenInNew} width="16px"></img></a>
+                <a target="_blank" rel="noreferrer" href={updatedRecord.url} aria-label="Open URL in new tab" className="rounded-sm bg-white"><ExternalLink size={16} /></a>
               </div>
             </div>
           </div>
           <div className="flex flex-col">
-            <label className="pl-1 text-sm">Username</label>
+            <label htmlFor="update-username" className="pl-1 text-sm">Username</label>
             <div className="border rounded relative">
-              <input className="rounded px-2 py-0.5 outline-none w-full" placeholder={updatedRecord.username} value={updatedRecord.username} onChange={(event) =>
+              <input id="update-username" className="rounded px-2 py-0.5 outline-none w-full" value={updatedRecord.username ?? ""} onChange={(event) =>
                 setUpdatedRecord({ ...updatedRecord, username: event.target.value })
-              }></input>
+              } />
               <div className="absolute right-0 top-0 bottom-0 flex items-center justify-center p-1">
-                <button className="rounded-sm bg-white" onClick={() => navigator.clipboard.writeText(updatedRecord.username)}><img src={ContentCopy} width="16px"></img></button>
+                <button type="button" aria-label="Copy username" className="rounded-sm bg-white" onClick={() => navigator.clipboard.writeText(updatedRecord.username)}><Copy size={16} /></button>
               </div>
             </div>
           </div>
           <div className="flex flex-col">
-            <label className="pl-1 text-sm">Email</label>
+            <label htmlFor="update-email" className="pl-1 text-sm">Email</label>
             <div className="border rounded relative">
-              <input type="email" className="rounded px-2 py-0.5 outline-none w-full" placeholder={updatedRecord.email} value={updatedRecord.email} onChange={(event) =>
+              <input id="update-email" type="email" className="rounded px-2 py-0.5 outline-none w-full" value={updatedRecord.email ?? ""} onChange={(event) =>
                 setUpdatedRecord({ ...updatedRecord, email: event.target.value })
-              }></input>
+              } />
               <div className="absolute right-0 top-0 bottom-0 flex items-center justify-center p-1">
-                <button className="rounded-sm bg-white" onClick={() => navigator.clipboard.writeText(updatedRecord.email)}><img src={ContentCopy} width="16px"></img></button>
+                <button type="button" aria-label="Copy email" className="rounded-sm bg-white" onClick={() => navigator.clipboard.writeText(updatedRecord.email)}><Copy size={16} /></button>
               </div>
             </div>
           </div>
           <div className="flex flex-col">
-            <label className="pl-1 text-sm">Password</label>
+            <label htmlFor="update-password" className="pl-1 text-sm">Password</label>
             <div className="border rounded relative">
-              <input type={passwordVisible ? "text" : "password"} className="rounded px-2 py-0.5 outline-none w-full" placeholder={updatedRecord.password} value={updatedRecord.password} onChange={(event) =>
+              <input id="update-password" type={passwordVisible ? "text" : "password"} className="rounded px-2 py-0.5 outline-none w-full" value={updatedRecord.password ?? ""} onChange={(event) =>
                 setUpdatedRecord({ ...updatedRecord, password: event.target.value })
-              }></input>
+              } />
               <div className="absolute right-0 top-0 bottom-0 flex items-center justify-center p-1 gap-0.5">
-                <button className="rounded-sm bg-white" onClick={() => setPasswordVisible(!passwordVisible)}><img src={passwordVisible ? VisibilityOff : Visibility} width="16px"></img></button>
-                <button className="rounded-sm bg-white" onClick={() => navigator.clipboard.writeText(updatedRecord.password)}><img src={ContentCopy} width="16px"></img></button>
+                <button type="button" aria-label={passwordVisible ? "Hide password" : "Show password"} className="rounded-sm bg-white" onClick={() => setPasswordVisible(!passwordVisible)}>{passwordVisible ? <EyeOff size={16} /> : <Eye size={16} />}</button>
+                <button type="button" aria-label="Copy password" className="rounded-sm bg-white" onClick={() => navigator.clipboard.writeText(updatedRecord.password)}><Copy size={16} /></button>
               </div>
             </div>
           </div>
           <div className="flex flex-col">
-            <label className="pl-1 text-sm">Mobile</label>
+            <label htmlFor="update-mobile" className="pl-1 text-sm">Mobile</label>
             <div className="border rounded relative">
-              <input className="rounded px-2 py-0.5 outline-none w-full" placeholder={updatedRecord.mobile} value={updatedRecord.mobile} onChange={(event) =>
+              <input id="update-mobile" className="rounded px-2 py-0.5 outline-none w-full" value={updatedRecord.mobile ?? ""} onChange={(event) =>
                 setUpdatedRecord({ ...updatedRecord, mobile: event.target.value })
-              }></input>
+              } />
               <div className="absolute right-0 top-0 bottom-0 flex items-center justify-center p-1">
-                <button className="rounded-sm bg-white" onClick={() => navigator.clipboard.writeText(updatedRecord.mobile)}><img src={ContentCopy} width="16px"></img></button>
+                <button type="button" aria-label="Copy mobile" className="rounded-sm bg-white" onClick={() => navigator.clipboard.writeText(updatedRecord.mobile)}><Copy size={16} /></button>
               </div>
             </div>
           </div>
           <div className="flex flex-col">
-            <label className="pl-1 text-sm">Notes</label>
-            <textarea rows={2} className="border rounded px-2 py-0.5 outline-none" placeholder={updatedRecord.notes} value={updatedRecord.notes} onChange={(event) =>
+            <label htmlFor="update-notes" className="pl-1 text-sm">Notes</label>
+            <textarea id="update-notes" rows={2} className="border rounded px-2 py-0.5 outline-none" value={updatedRecord.notes ?? ""} onChange={(event) =>
               setUpdatedRecord({ ...updatedRecord, notes: event.target.value })
             }></textarea>
           </div>
         </div>
         <div className="flex gap-2">
-          <button className="border rounded w-full bg-slate-200 py-0.5" onClick={() => {
+          <button type="button" className="border rounded w-full bg-slate-200 py-0.5" onClick={() => {
             recordIndex < records.length
               ? setRecords(records.map((value, index) =>
                 index == recordIndex
@@ -126,7 +120,7 @@ function Records({ records, setRecords }) {
             setRecordIndex(-1)
             updateDialogRef.current.close()
           }}>Save</button>
-          <button className="border rounded w-full py-0.5" onClick={() => {
+          <button type="button" className="border rounded w-full py-0.5" onClick={() => {
             setUpdatedRecord({})
             setRecordIndex(-1)
             updateDialogRef.current.close()
@@ -137,4 +131,4 @@ function Records({ records, setRecords }) {
   )
 }
 
-export default Records
+export { Records }

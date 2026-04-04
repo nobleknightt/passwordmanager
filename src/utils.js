@@ -12,8 +12,6 @@ async function encryptWith_AES_GCM(plaintextBytes, passwordBytes) {
 	const iv = crypto.getRandomValues(new Uint8Array(12));
 	const ciphertextBytes = await crypto.subtle.encrypt({ name: 'AES-GCM', iv }, aesKey, plaintextBytes);
 
-	console.log("IVSaltCiphertextBytes", iv, salt, new Uint8Array(ciphertextBytes));
-
 	const IVSaltCiphertextBytes = new Uint8Array(iv.length + salt.length + ciphertextBytes.byteLength);
 	IVSaltCiphertextBytes.set(iv, 0);
 	IVSaltCiphertextBytes.set(salt, iv.length);
@@ -26,8 +24,6 @@ async function decryptWith_AES_GCM(IVSaltCiphertextBytes, passwordBytes) {
 	const iv = IVSaltCiphertextBytes.slice(0, 12);
 	const salt = IVSaltCiphertextBytes.slice(12, 28);
 	const ciphertextBytes = IVSaltCiphertextBytes.slice(28);
-
-	console.log("IVSaltCiphertextBytes", iv, salt, ciphertextBytes);
 
 	const passwordKey = await crypto.subtle.importKey('raw', passwordBytes, { name: 'PBKDF2' }, false, ['deriveKey']);
 	const aesKey = await crypto.subtle.deriveKey(
